@@ -7,14 +7,14 @@
 
 ### List users in the domain
 ```bash
-gws admin directory users list --params '{
+gws reports:directory_v1 users list --params '{
   "customer": "my_customer",
   "maxResults": 50,
   "orderBy": "email"
 }'
 
 # Search for a specific user
-gws admin directory users list --params '{
+gws reports:directory_v1 users list --params '{
   "customer": "my_customer",
   "query": "email:alice*"
 }'
@@ -22,12 +22,12 @@ gws admin directory users list --params '{
 
 ### Get a specific user
 ```bash
-gws admin directory users get --params '{"userKey": "alice@example.com"}'
+gws reports:directory_v1 users get --params '{"userKey": "alice@example.com"}'
 ```
 
 ### Create a user
 ```bash
-gws admin directory users insert --body '{
+gws reports:directory_v1 users insert --json '{
   "primaryEmail": "newuser@example.com",
   "name": {"givenName": "New", "familyName": "User"},
   "password": "TEMPORARY_PASSWORD",
@@ -37,46 +37,46 @@ gws admin directory users insert --body '{
 
 ### Update a user
 ```bash
-gws admin directory users update \
+gws reports:directory_v1 users update \
   --params '{"userKey": "alice@example.com"}' \
-  --body '{"suspended": false, "name": {"givenName": "Alice"}}'
+  --json '{"suspended": false, "name": {"givenName": "Alice"}}'
 ```
 
 ### Suspend / unsuspend a user
 ```bash
 # Suspend
-gws admin directory users update \
+gws reports:directory_v1 users update \
   --params '{"userKey": "alice@example.com"}' \
-  --body '{"suspended": true}'
+  --json '{"suspended": true}'
 
 # Unsuspend
-gws admin directory users update \
+gws reports:directory_v1 users update \
   --params '{"userKey": "alice@example.com"}' \
-  --body '{"suspended": false}'
+  --json '{"suspended": false}'
 ```
 
 ### Reset a user's password
 ```bash
-gws admin directory users update \
+gws reports:directory_v1 users update \
   --params '{"userKey": "alice@example.com"}' \
-  --body '{"password": "NEW_TEMP_PASSWORD", "changePasswordAtNextLogin": true}'
+  --json '{"password": "NEW_TEMP_PASSWORD", "changePasswordAtNextLogin": true}'
 ```
 
 ## Group management
 
 ### List groups
 ```bash
-gws admin directory groups list --params '{"customer": "my_customer", "maxResults": 50}'
+gws reports:directory_v1 groups list --params '{"customer": "my_customer", "maxResults": 50}'
 ```
 
 ### Get group details
 ```bash
-gws admin directory groups get --params '{"groupKey": "engineering@example.com"}'
+gws reports:directory_v1 groups get --params '{"groupKey": "engineering@example.com"}'
 ```
 
 ### Create a group
 ```bash
-gws admin directory groups insert --body '{
+gws reports:directory_v1 groups insert --json '{
   "email": "newgroup@example.com",
   "name": "New Group",
   "description": "Description of the group"
@@ -85,26 +85,26 @@ gws admin directory groups insert --body '{
 
 ### List group members
 ```bash
-gws admin directory members list --params '{"groupKey": "engineering@example.com"}'
+gws reports:directory_v1 members list --params '{"groupKey": "engineering@example.com"}'
 ```
 
 ### Add a member to a group
 ```bash
-gws admin directory members insert \
+gws reports:directory_v1 members insert \
   --params '{"groupKey": "engineering@example.com"}' \
-  --body '{"email": "alice@example.com", "role": "MEMBER"}'
+  --json '{"email": "alice@example.com", "role": "MEMBER"}'
 ```
 
 ## Organizational Units
 
 ### List OUs
 ```bash
-gws admin directory orgunits list --params '{"customerId": "my_customer", "type": "all"}'
+gws reports:directory_v1 orgunits list --params '{"customerId": "my_customer", "type": "all"}'
 ```
 
 ### Get a specific OU
 ```bash
-gws admin directory orgunits get \
+gws reports:directory_v1 orgunits get \
   --params '{"customerId": "my_customer", "orgUnitPath": "/Engineering"}'
 ```
 
@@ -112,7 +112,7 @@ gws admin directory orgunits get \
 
 ### Get login activity for the last 7 days
 ```bash
-gws admin reports activities list --params '{
+gws reports activities list --params '{
   "userKey": "all",
   "applicationName": "login",
   "maxResults": 100
@@ -121,7 +121,7 @@ gws admin reports activities list --params '{
 
 ### Admin activity audit
 ```bash
-gws admin reports activities list --params '{
+gws reports activities list --params '{
   "userKey": "all",
   "applicationName": "admin",
   "maxResults": 50
@@ -131,8 +131,8 @@ gws admin reports activities list --params '{
 ### Usage reports
 ```bash
 # Domain-wide usage stats
-gws admin reports usageReports get --params '{
-  "date": "2024-12-01",
+gws reports usageReports get --params '{
+  "date": "2026-06-01",
   "parameters": "gmail:num_emails_sent,drive:num_items_created"
 }'
 ```
@@ -141,7 +141,7 @@ gws admin reports usageReports get --params '{
 
 ```bash
 # List managed Chrome devices
-gws admin directory chromeosdevices list \
+gws reports:directory_v1 chromeosdevices list \
   --params '{"customerId": "my_customer", "maxResults": 20}'
 ```
 

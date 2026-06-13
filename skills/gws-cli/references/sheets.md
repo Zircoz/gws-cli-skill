@@ -20,15 +20,17 @@ gws sheets spreadsheets get --params '{
 }'
 ```
 
-### Read values
+### Read a range
 ```bash
-gws sheets spreadsheets.values get --params '{
+gws sheets spreadsheets values get --params '{
   "spreadsheetId": "SPREADSHEET_ID",
-  "range": "Sheet1!A1:E100"
+  "range": "Sheet1!A1:D10"
 }'
+```
 
-# With rendering options
-gws sheets spreadsheets.values get --params '{
+### Read multiple non-contiguous ranges
+```bash
+gws sheets spreadsheets values get --params '{
   "spreadsheetId": "SPREADSHEET_ID",
   "range": "Sheet1!A:Z",
   "valueRenderOption": "FORMATTED_VALUE",
@@ -38,15 +40,15 @@ gws sheets spreadsheets.values get --params '{
 
 `valueRenderOption`: `FORMATTED_VALUE` (display text), `UNFORMATTED_VALUE` (raw), `FORMULA` (formulas).
 
-### Write values (update a range)
+### Write / update a range
 ```bash
-gws sheets spreadsheets.values update \
+gws sheets spreadsheets values update \
   --params '{
     "spreadsheetId": "SPREADSHEET_ID",
     "range": "Sheet1!A1",
     "valueInputOption": "USER_ENTERED"
   }' \
-  --body '{
+  --json '{
     "values": [
       ["Name", "Score", "Grade"],
       ["Alice", 95, "A"],
@@ -59,31 +61,31 @@ gws sheets spreadsheets.values update \
 
 ### Append rows
 ```bash
-gws sheets spreadsheets.values append \
+gws sheets spreadsheets values append \
   --params '{
     "spreadsheetId": "SPREADSHEET_ID",
     "range": "Sheet1!A1",
     "valueInputOption": "USER_ENTERED",
     "insertDataOption": "INSERT_ROWS"
   }' \
-  --body '{
+  --json '{
     "values": [["NewRow", "Data", "Here"]]
   }'
 ```
 
-### Batch read (multiple ranges at once)
+### Batch read ranges
 ```bash
-gws sheets spreadsheets.values batchGet --params '{
+gws sheets spreadsheets values batchGet --params '{
   "spreadsheetId": "SPREADSHEET_ID",
   "ranges": ["Sheet1!A1:C10", "Summary!A1:B5"]
 }'
 ```
 
-### Batch update (multiple ranges at once)
+### Batch update ranges
 ```bash
-gws sheets spreadsheets.values batchUpdate \
+gws sheets spreadsheets values batchUpdate \
   --params '{"spreadsheetId": "SPREADSHEET_ID"}' \
-  --body '{
+  --json '{
     "valueInputOption": "USER_ENTERED",
     "data": [
       {"range": "Sheet1!A1", "values": [["Updated"]]},
@@ -92,26 +94,26 @@ gws sheets spreadsheets.values batchUpdate \
   }'
 ```
 
-### Clear a range
+### Clear values
 ```bash
-gws sheets spreadsheets.values clear \
+gws sheets spreadsheets values clear \
   --params '{"spreadsheetId": "SPREADSHEET_ID", "range": "Sheet1!A2:Z100"}' \
-  --body '{}'
+  --json '{}'
 ```
 
-### Create a new spreadsheet
+### Create a spreadsheet
 ```bash
-gws sheets spreadsheets create --body '{
+gws sheets spreadsheets create --json '{
   "properties": {"title": "My New Spreadsheet"},
   "sheets": [{"properties": {"title": "Sheet1"}}]
 }'
 ```
 
-### Format cells (batchUpdate)
+### Apply formatting (batchUpdate)
 ```bash
 gws sheets spreadsheets batchUpdate \
   --params '{"spreadsheetId": "SPREADSHEET_ID"}' \
-  --body '{
+  --json '{
     "requests": [{
       "repeatCell": {
         "range": {"sheetId": 0, "startRowIndex": 0, "endRowIndex": 1},

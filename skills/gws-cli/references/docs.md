@@ -24,7 +24,7 @@ The response includes the full document structure: title, body content, sections
 
 ### Create a new document
 ```bash
-gws docs documents create --body '{"title": "My New Document"}'
+gws docs documents create --json '{"title": "My New Document"}'
 ```
 
 ### Batch update (insert/format/delete content)
@@ -35,7 +35,7 @@ The Docs API uses `batchUpdate` with a list of request objects. Common request t
 ```bash
 gws docs documents batchUpdate \
   --params '{"documentId": "DOC_ID"}' \
-  --body '{
+  --json '{
     "requests": [{
       "insertText": {
         "location": {"index": 1},
@@ -52,7 +52,7 @@ gws docs documents batchUpdate \
 ```bash
 gws docs documents batchUpdate \
   --params '{"documentId": "DOC_ID"}' \
-  --body '{
+  --json '{
     "requests": [
       {
         "insertText": {
@@ -75,7 +75,7 @@ gws docs documents batchUpdate \
 ```bash
 gws docs documents batchUpdate \
   --params '{"documentId": "DOC_ID"}' \
-  --body '{
+  --json '{
     "requests": [{
       "deleteContentRange": {
         "range": {"startIndex": 10, "endIndex": 50}
@@ -88,7 +88,7 @@ gws docs documents batchUpdate \
 ```bash
 gws docs documents batchUpdate \
   --params '{"documentId": "DOC_ID"}' \
-  --body '{
+  --json '{
     "requests": [{
       "replaceAllText": {
         "containsText": {"text": "{{COMPANY_NAME}}", "matchCase": false},

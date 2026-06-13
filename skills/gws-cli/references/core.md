@@ -10,9 +10,9 @@ gws <service> <resource> [sub-resource] <method> [flags]
 
 Examples:
 ```bash
-gws gmail users.messages list --params '{"maxResults": 10}'
+gws gmail users messages list --params '{"maxResults": 10}'
 gws drive files list --params '{"pageSize": 5, "q": "mimeType=\"application/pdf\""}'
-gws calendar events insert --body '{"summary": "Team sync", "start": {...}}'
+gws calendar events insert --json '{"summary": "Team sync", "start": {...}}'
 ```
 
 ## Exploring the API (when you're unsure of params)
@@ -29,11 +29,11 @@ Use `gws schema` liberally before constructing complex requests. It's fast, loca
 | Flag | Purpose |
 |------|---------|
 | `--params '{"key": "val"}'` | Query parameters (GET requests) |
-| `--body '{"key": "val"}'` | Request body (POST/PUT/PATCH) |
+| `--json '{"key": "val"}'` | Request body (POST/PUT/PATCH) |
 | `--format json\|table\|yaml\|csv` | Output format (default: json) |
 | `--dry-run` | Validate the request locally without hitting the API |
 | `--sanitize <template>` | Screen response through Model Armor for sensitive data |
-| `--all-pages` | Auto-paginate and return all results |
+| `--page-all` | Auto-paginate and return all results |
 
 ## Security rules (never skip these)
 
@@ -50,21 +50,21 @@ Use `gws schema` liberally before constructing complex requests. It's fast, loca
 
 ## Pagination
 
-Many list commands return paginated results. Use `--all-pages` to fetch everything automatically:
+Many list commands return paginated results. Use `--page-all` to fetch everything automatically:
 ```bash
-gws drive files list --params '{"q": "trashed=false"}' --all-pages
+gws drive files list --params '{"q": "trashed=false"}' --page-all
 ```
 
 Or handle manually with `nextPageToken`:
 ```bash
-gws gmail users.messages list --params '{"maxResults": 100, "pageToken": "TOKEN_HERE"}'
+gws gmail users messages list --params '{"maxResults": 100, "pageToken": "TOKEN_HERE"}'
 ```
 
 ## Adding new scopes later
 
 If the user needs a service that wasn't authorized:
 ```bash
-gws auth login --scopes gmail,calendar,drive,sheets,docs,chat
+gws auth login --services gmail,calendar,drive,sheets,docs,chat
 ```
 
 This re-runs OAuth and lets them select additional scopes. They may need to re-authenticate fully if changing the scope set significantly.

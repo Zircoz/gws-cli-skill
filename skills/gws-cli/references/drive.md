@@ -47,7 +47,7 @@ gws drive files get --params '{
 
 ### Download a file
 ```bash
-gws drive files get --params '{"fileId": "FILE_ID", "alt": "media"}' > output.pdf
+gws drive files get --params '{"fileId": "FILE_ID", "alt": "media"}' -o output.pdf
 ```
 
 ### Export a Google Doc/Sheet/Slide as another format
@@ -56,24 +56,24 @@ gws drive files get --params '{"fileId": "FILE_ID", "alt": "media"}' > output.pd
 gws drive files export --params '{
   "fileId": "DOC_ID",
   "mimeType": "application/pdf"
-}' > document.pdf
+}' -o document.pdf
 
 # Export Google Sheet as Excel
 gws drive files export --params '{
   "fileId": "SHEET_ID",
   "mimeType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-}' > spreadsheet.xlsx
+}' -o spreadsheet.xlsx
 ```
 
 ### Create a folder
 ```bash
-gws drive files create --body '{
+gws drive files create --json '{
   "name": "New Folder",
   "mimeType": "application/vnd.google-apps.folder"
 }'
 
 # Create inside another folder
-gws drive files create --body '{
+gws drive files create --json '{
   "name": "Subfolder",
   "mimeType": "application/vnd.google-apps.folder",
   "parents": ["PARENT_FOLDER_ID"]
@@ -85,7 +85,7 @@ gws drive files create --body '{
 # Share with a specific person
 gws drive permissions create \
   --params '{"fileId": "FILE_ID", "sendNotificationEmail": true}' \
-  --body '{
+  --json '{
     "type": "user",
     "role": "reader",
     "emailAddress": "alice@example.com"
@@ -94,7 +94,7 @@ gws drive permissions create \
 # Make file publicly readable
 gws drive permissions create \
   --params '{"fileId": "FILE_ID"}' \
-  --body '{"type": "anyone", "role": "reader"}'
+  --json '{"type": "anyone", "role": "reader"}'
 ```
 
 ### Move a file
@@ -102,13 +102,13 @@ gws drive permissions create \
 # Get current parents first, then update
 gws drive files update \
   --params '{"fileId": "FILE_ID", "addParents": "NEW_FOLDER_ID", "removeParents": "OLD_PARENT_ID"}' \
-  --body '{}'
+  --json '{}'
 ```
 
 ### Trash / delete
 ```bash
 # Trash (recoverable)
-gws drive files update --params '{"fileId": "FILE_ID"}' --body '{"trashed": true}'
+gws drive files update --params '{"fileId": "FILE_ID"}' --json '{"trashed": true}'
 
 # Permanently delete — confirm with user first!
 gws drive files delete --params '{"fileId": "FILE_ID"}' --dry-run

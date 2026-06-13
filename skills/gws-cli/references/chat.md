@@ -27,13 +27,13 @@ gws chat spaces findDirectMessage --params '{"name": "users/USER_EMAIL_OR_ID"}'
 ### Create a new space
 ```bash
 # Named space (team channel)
-gws chat spaces create --body '{
+gws chat spaces create --json '{
   "displayName": "Project Phoenix",
   "spaceType": "SPACE"
 }'
 
 # Group DM with multiple people
-gws chat spaces create --body '{
+gws chat spaces create --json '{
   "spaceType": "GROUP_CHAT",
   "members": [
     {"member": {"name": "users/alice@example.com", "type": "HUMAN"}},
@@ -44,18 +44,18 @@ gws chat spaces create --body '{
 
 ### Send a message to a space
 ```bash
-gws chat spaces.messages create \
+gws chat spaces messages create \
   --params '{"parent": "spaces/SPACE_ID"}' \
-  --body '{
+  --json '{
     "text": "Hello from the CLI! 👋"
   }'
 ```
 
 **With formatted cards (rich messages):**
 ```bash
-gws chat spaces.messages create \
+gws chat spaces messages create \
   --params '{"parent": "spaces/SPACE_ID"}' \
-  --body '{
+  --json '{
     "cardsV2": [{
       "cardId": "info-card",
       "card": {
@@ -72,15 +72,15 @@ gws chat spaces.messages create \
 
 ### List messages in a space
 ```bash
-gws chat spaces.messages list \
+gws chat spaces messages list \
   --params '{"parent": "spaces/SPACE_ID", "pageSize": 25}'
 ```
 
 ### Reply to a thread
 ```bash
-gws chat spaces.messages create \
+gws chat spaces messages create \
   --params '{"parent": "spaces/SPACE_ID", "messageReplyOption": "REPLY_MESSAGE_FALLBACK_TO_NEW_THREAD"}' \
-  --body '{
+  --json '{
     "text": "Following up on this...",
     "thread": {"name": "spaces/SPACE_ID/threads/THREAD_ID"}
   }'
@@ -88,26 +88,26 @@ gws chat spaces.messages create \
 
 ### Update a message
 ```bash
-gws chat spaces.messages patch \
+gws chat spaces messages patch \
   --params '{"name": "spaces/SPACE_ID/messages/MESSAGE_ID", "updateMask": "text"}' \
-  --body '{"text": "Updated message text"}'
+  --json '{"text": "Updated message text"}'
 ```
 
 ### Delete a message
 ```bash
 # Confirm with user before deleting
-gws chat spaces.messages delete --params '{"name": "spaces/SPACE_ID/messages/MESSAGE_ID"}'
+gws chat spaces messages delete --params '{"name": "spaces/SPACE_ID/messages/MESSAGE_ID"}'
 ```
 
 ### Manage members
 ```bash
 # List members of a space
-gws chat spaces.members list --params '{"parent": "spaces/SPACE_ID"}'
+gws chat spaces members list --params '{"parent": "spaces/SPACE_ID"}'
 
 # Add a member
-gws chat spaces.members create \
+gws chat spaces members create \
   --params '{"parent": "spaces/SPACE_ID"}' \
-  --body '{"member": {"name": "users/alice@example.com", "type": "HUMAN"}}'
+  --json '{"member": {"name": "users/alice@example.com", "type": "HUMAN"}}'
 ```
 
 ### Upload an attachment (media)
