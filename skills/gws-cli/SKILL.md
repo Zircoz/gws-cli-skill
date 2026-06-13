@@ -81,7 +81,7 @@ With the reference docs loaded, execute the user's request using the `gws` comma
 
 If the user's request touches a service they haven't authorized, tell them kindly:
 > "You haven't authorized [service] yet. You can add it by running:
-> `gws auth login --scopes [service]`"
+> `gws auth login --services [service]`"
 
 Use the `--dry-run` flag when you're unsure about destructive operations — it validates locally
 without hitting the API. Always confirm with the user before `delete`, `update`, or `send` actions.

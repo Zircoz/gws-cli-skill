@@ -9,9 +9,10 @@ gws calendar +agenda
 # Create an event quickly
 gws calendar +insert \
   --summary "Team sync" \
-  --start "2024-12-10T10:00:00-08:00" \
-  --end "2024-12-10T11:00:00-08:00" \
-  --attendees "alice@example.com,bob@example.com"
+  --start "2026-06-17T10:00:00-07:00" \
+  --end "2026-06-17T11:00:00-07:00" \
+  --attendee "alice@example.com" \
+  --attendee "bob@example.com"
 ```
 
 ## API resource commands
@@ -29,8 +30,8 @@ gws calendar events list --params '{
   "maxResults": 20,
   "orderBy": "startTime",
   "singleEvents": true,
-  "timeMin": "2024-12-01T00:00:00Z",
-  "timeMax": "2024-12-08T00:00:00Z"
+  "timeMin": "2026-06-14T00:00:00Z",
+  "timeMax": "2026-06-21T00:00:00Z"
 }'
 ```
 
@@ -45,11 +46,11 @@ gws calendar events get --params '{"calendarId": "primary", "eventId": "EVENT_ID
 ```bash
 gws calendar events insert \
   --params '{"calendarId": "primary"}' \
-  --body '{
+  --json '{
     "summary": "Quarterly review",
     "description": "Q4 performance review",
-    "start": {"dateTime": "2024-12-10T14:00:00-08:00", "timeZone": "America/Los_Angeles"},
-    "end":   {"dateTime": "2024-12-10T15:00:00-08:00", "timeZone": "America/Los_Angeles"},
+    "start": {"dateTime": "2026-06-17T14:00:00-07:00", "timeZone": "America/Los_Angeles"},
+    "end":   {"dateTime": "2026-06-17T15:00:00-07:00", "timeZone": "America/Los_Angeles"},
     "attendees": [
       {"email": "alice@example.com"},
       {"email": "bob@example.com"}
@@ -62,7 +63,7 @@ gws calendar events insert \
 ```bash
 gws calendar events patch \
   --params '{"calendarId": "primary", "eventId": "EVENT_ID"}' \
-  --body '{"summary": "Updated title", "location": "Conference room B"}'
+  --json '{"summary": "Updated title", "location": "Conference room B"}'
 ```
 
 ### Delete an event
@@ -74,9 +75,9 @@ gws calendar events delete --params '{"calendarId": "primary", "eventId": "EVENT
 
 ### Check free/busy
 ```bash
-gws calendar freebusy query --body '{
-  "timeMin": "2024-12-10T00:00:00Z",
-  "timeMax": "2024-12-10T23:59:59Z",
+gws calendar freebusy query --json '{
+  "timeMin": "2026-06-17T00:00:00Z",
+  "timeMax": "2026-06-17T23:59:59Z",
   "items": [{"id": "primary"}, {"id": "alice@example.com"}]
 }'
 ```
@@ -92,9 +93,9 @@ gws calendar events quickAdd \
 **Find a time slot when everyone is free:**
 ```bash
 # Use freebusy query with all attendee emails, then find gaps in the response
-gws calendar freebusy query --body '{
-  "timeMin": "2024-12-09T00:00:00Z",
-  "timeMax": "2024-12-13T23:59:59Z",
+gws calendar freebusy query --json '{
+  "timeMin": "2026-06-15T00:00:00Z",
+  "timeMax": "2026-06-19T23:59:59Z",
   "items": [
     {"id": "primary"},
     {"id": "alice@example.com"},

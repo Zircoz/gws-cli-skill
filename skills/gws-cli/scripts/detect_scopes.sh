@@ -90,7 +90,7 @@ else
   echo "# No token file found — using live probes (this may take a few seconds)" >&2
 
   probe_service "gmail" \
-    "gws gmail users.getProfile --params '{\"userId\":\"me\"}'" \
+    "gws gmail users getProfile --params '{\"userId\":\"me\"}'" \
     && RESULTS[gmail]=true
 
   probe_service "calendar" \
@@ -114,7 +114,7 @@ else
     && RESULTS[chat]=true
 
   probe_service "admin" \
-    "gws admin directory users list --params '{\"customer\":\"my_customer\",\"maxResults\":1}'" \
+    "gws reports:directory_v1 users list --params '{\"customer\":\"my_customer\",\"maxResults\":1}'" \
     && RESULTS[admin]=true
 fi
 
